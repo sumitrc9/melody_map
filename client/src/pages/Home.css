@@ -1,0 +1,33 @@
+.home-main-div {
+	margin: 0;
+	padding: 0;
+}
+
+.home-background-image {
+	opacity: 1;
+	top:0;
+	left:0;
+	position: relative;
+}
+
+.home-header-container {
+	position: relative;
+	margin: 0 auto;
+	z-index: 10;
+}
+
+.home-header-text {
+	color:black;
+}
+
+.home-sign-in {
+	margin:0 auto;
+}
+
+.home-sign-in-button {
+	width: 100%;
+}
+
+.home-sing-up-button {
+	width: 100%;
+}
