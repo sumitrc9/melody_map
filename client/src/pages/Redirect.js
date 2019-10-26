@@ -36,6 +36,8 @@ console.log(hash.access_token);
 	    return (
 	      <div className="redirect-main-div">
 	          <Header/>
+	          <Redirect to='/MapPage' />
+	      
 	      </div>
 	    );
 	  }
