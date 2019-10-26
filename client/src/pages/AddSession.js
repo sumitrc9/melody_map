@@ -27,11 +27,9 @@ class AddSession extends Component {
   }
 
   submitInfo() {
-    fetch('http://localhost:8080/createSession/', {
-      mode: 'no-cors',
+    fetch('http://localhost:8080/createSession', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(this.state)
