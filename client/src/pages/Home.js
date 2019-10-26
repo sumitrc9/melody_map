@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import "./Home.css"
+import hash from "./hash";
 
 
 //Spotify OAuth
@@ -56,7 +57,20 @@ function SingIn(props) {
 }
 
 class Home extends Component {
-  render() {
+  
+componentDidMount() {
+
+  let _token = hash.access_token;
+
+    if (_token) {
+      // Set token
+      this.setState({
+        token: _token
+      });
+  }
+}
+
+render() {
     return (
       <div className="home-main-div">
           <Logo/>

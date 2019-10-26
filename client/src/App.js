@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import MapPage from './pages/MapPage';
+import Redirect from './pages/Redirect';
 import AddSession from './pages/AddSession';
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
           <Route exact path='/' component={Home}/>
           <Route path='/addsession' component={AddSession}/>
           <Route path='/map' component={MapPage}/>
+          <Route redirect='/redirect' component={Redirect}/>
         </Switch>
       </div>
     )
