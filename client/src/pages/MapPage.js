@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Redirect } from 'react-router-dom';
 
 export class MapContainer extends Component {
 
@@ -30,20 +31,24 @@ export class MapContainer extends Component {
   }
 
   render() {
+    if (this.state.toSession === true) {
+      return <Redirect to='/list' />
+    }
+
     return (
       <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14}>
 
         <Marker position={this.state.center}
-                onClick={this.onMarkerClick}
+                onClick={this.onMarkerClick.bind(this)}
                 name={'Current location'} />
-
-        <InfoWindow onClose={this.onInfoWindowClose}>
-            <div>
-              {/* <h1>{this.state.selectedPlace.name}</h1> */}
-            </div>
-        </InfoWindow>
       </Map>
     );
+  }
+
+  onMarkerClick() {
+    this.setState(() => ({
+      toSession: true
+    }))
   }
 }
 
