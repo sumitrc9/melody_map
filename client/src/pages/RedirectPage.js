@@ -32,8 +32,6 @@ class RedirectPage extends Component {
         body: JSON.stringify({
           token: hash.access_token,
       })
-    }).then(() => {
-
     })
     this.setState({redirect: true}, () => {
       console.log(this.state)
