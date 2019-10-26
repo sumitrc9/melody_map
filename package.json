@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sumitrc9/melody_map#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "google-maps-react": "^2.0.2"
   }
 }
