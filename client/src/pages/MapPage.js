@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { Redirect } from 'react-router-dom';
+import * as constants from '../constants';
 
 export class MapContainer extends Component {
 
@@ -36,7 +37,7 @@ export class MapContainer extends Component {
     }
 
     return (
-      <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14}>
+      <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
 
         <Marker position={this.state.center}
                 onClick={this.onMarkerClick.bind(this)}
@@ -58,6 +59,7 @@ const defaultState = {
     lng: -84.4037136
   }
 }
+
 
 export default GoogleApiWrapper({
   apiKey: ('AIzaSyDwgjrHsgCx_dhLEIyjFfilp62zLyM90vw')
