@@ -21,17 +21,15 @@ class AddSession extends Component {
   textChanged(property) {
     return (event) => {
       var change = {}
-      change[property] = 
-      this.setState(property)
+      change[property] = event.target.value;
+      this.setState(change)
     }
   }
 
   submitInfo() {
-    console.log(JSON.stringify(this.state))
-    fetch('http://localhost:8080/createSession/', {
+    fetch('http://localhost:8080/createSession', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

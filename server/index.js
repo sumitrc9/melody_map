@@ -29,7 +29,7 @@ app.post('/postToken', (req, res) => {
 
 app.post('/createSession', (req, res) => {
     console.log(req.body)
-
+    res.json('Success')
 })
 const port = process.env.PORT || 8080;
 app.listen(port);
