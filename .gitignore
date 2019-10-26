@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /datasets
+
+/server/melodymaps-firebase-adminsdk-loznj-eb2f09b6bf.json
