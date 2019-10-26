@@ -17,7 +17,10 @@
 }
 
 .home-header-text {
+	font-size: 10vmin;
+	font-weight: bold;
 	color:black;
+	font-family: 'Roboto' ;
 }
 
 .home-sign-in {
@@ -32,23 +35,32 @@
 	width: 100%;
 }
 
+.home-bg {
+	background-color: #0e1626;
+}
+
+body {
+  background-color: #d36dc3;
+}
+
 
 /** Buttons **/
 
 .btn {
-  background-color: transparent;
+  background-color: #1aa34a;
   border-radius: 2em;
-  border: 0.2em solid #1a3646;
-  color: #1a3646;
+  border: 0.2em solid #1aa34a;
+  color: white;
   cursor: pointer;
-  font-size: 3vmin;
+  font-size: 5vmin;
   padding: 0.7em 1.5em;
   text-transform: uppercase;
+  text-decoration: none;
   transition: all 0.25s ease;
 }
 
 .btn:hover {
-  background: #1a3646;
+  background: #1aa34a;
   color: white;
 }
 

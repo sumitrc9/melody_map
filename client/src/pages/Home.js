@@ -21,6 +21,10 @@ function Logo(props) {
 
   return (
     <div className="home-logo">
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <img src={process.env.PUBLIC_URL + "/mm_logo.jpg"}/>
     </div>
   );
@@ -30,7 +34,6 @@ function Logo(props) {
   This is the section of the screen that has the heading
 */
 function Header(props) {
-
   return (
     <div className="home-header-contaner">
       <h1 className="home-header-text"> Melody Maps </h1>
@@ -45,7 +48,7 @@ function SingIn(props) {
 
   return (
     <div className="home-sign-in">
-      <h1 className="home-sign-in-button">Log in</h1>
+      <h1 className="home-sign-in-button"></h1>
             <a
               className="btn btn--loginApp-link"
               href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(

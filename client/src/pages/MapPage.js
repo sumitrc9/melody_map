@@ -33,7 +33,7 @@ export class MapContainer extends Component {
 
   render() {
     if (this.state.toSession === true) {
-      return <Redirect to='/list' />
+      return <Redirect to='/session'/>
     }
 
     return (
