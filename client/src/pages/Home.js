@@ -55,6 +55,21 @@ function SingIn(props) {
   );
 }
 
+componentDidMount() {
+  
+  fetch('http://localhost:8080/postToken', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: this.state.token,
+    })
+  })
+
+}
+
 class Home extends Component {
   render() {
     return (
