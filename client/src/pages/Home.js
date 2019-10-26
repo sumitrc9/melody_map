@@ -3,6 +3,15 @@ import React, { Component } from 'react';
 import "./Home.css"
 
 
+function Logo(props) {
+
+  return (
+    <div className="home-logo">
+      <img src={process.env.PUBLIC_URL + "/mm_logo.png"}/>
+    </div>
+  );
+}
+
 /*
   This is the section of the screen that has the heading
 */
@@ -22,7 +31,7 @@ function SingIn(props) {
 
   return (
     <div className="home-sign-in">
-      <h1 className="home-sign-in-button">Sing In</h1>
+      <h1 className="home-sign-in-button">Log in</h1>
     </div>
   );
 }
@@ -31,6 +40,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home-main-div">
+          <Logo/>
           <Header/>
           <SingIn/>
       </div>
