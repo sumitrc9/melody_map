@@ -21,8 +21,8 @@ class AddSession extends Component {
   textChanged(property) {
     return (event) => {
       var change = {}
-      change[property] = 
-      this.setState(property)
+      change[property] = event.target.value;
+      this.setState(change)
     }
   }
 
