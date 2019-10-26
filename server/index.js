@@ -15,6 +15,10 @@ app.get('/api/getList', (req,res) => {
     });
 });
 
+app.post('/postToken', (req, res) => {
+    console.log(req.body.value)
+});
+
 const port = process.env.PORT || 8080;
 app.listen(port);
 

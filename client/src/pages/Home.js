@@ -3,6 +3,17 @@ import React, { Component } from 'react';
 import "./Home.css"
 
 
+//Spotify OAuth
+export const authEndpoint = "https://accounts.spotify.com/authorize";
+
+// Replace with your app's client ID, redirect URI and desired scopes
+export const clientId = "ce3c222b70fc46e2957d643195b432fb";
+export const redirectUri = "http://localhost:3000/redirect";
+export const scopes = [
+    "user-top-read"
+];
+
+
 function Logo(props) {
 
   return (
@@ -32,6 +43,14 @@ function SingIn(props) {
   return (
     <div className="home-sign-in">
       <h1 className="home-sign-in-button">Log in</h1>
+            <a
+              className="btn btn--loginApp-link"
+              href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                "%20"
+              )}&response_type=token&show_dialog=true`}
+            >
+              Login to Spotify
+           </a>
     </div>
   );
 }
