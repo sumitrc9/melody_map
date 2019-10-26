@@ -8,7 +8,7 @@ import MapPage from './pages/MapPage';
 class App extends Component {
   render() {
     const App = () => (
-      <div>
+      <div className="App">
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path='/list' component={List}/>
