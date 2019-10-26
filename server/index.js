@@ -2,6 +2,8 @@ const express = require('express');
 const request = require('request')
 const bodyParser = require('body-parser')
 
+const session = require('./models/session')
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,13 +26,21 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/postToken', (req, res) => {
-    console.log(req.body)
+	console.log(req.body);
 });
 
 app.post('/createSession', (req, res) => {
-    console.log(req.body)
-    res.json('Success')
+    name = req.body.name;
+    location = req.body.location;
+    range = req.body.range;
+    danceability = req.body.danceability;
+    energy = req.body.energy;
+    positivity = req.body.positivity;
+    tempo = req.body.tempo;
+    session.addSession(name, location, range, danceability, energy, positivity, tempo);
+    res.json('Success');
 })
+
 const port = process.env.PORT || 8080;
 app.listen(port);
 
