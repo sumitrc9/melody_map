@@ -1,8 +1,12 @@
 const express = require('express');
 const request = require('request')
 const bodyParser = require('body-parser')
+const SpotifyWebApi = require('spotify-web-api-node')
 
-const session = require('./models/session')
+// const session = require('./models/session')
+// const user = require('./models/user')
+
+const database = require('./database')
 
 const app = express();
 
@@ -16,7 +20,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-// An api endpoint that returns a short list of items
+// Example api sends a get request to Flask endpoint
 app.get('/api/getList', (req,res) => {
     request('http://localhost:5000/getList', { json: true }, (err, res_in, body) => {
         if (err) { return console.log(err); }
@@ -26,7 +30,30 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/postToken', (req, res) => {
-	console.log(req.body);
+    token = req.body.token;
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(token);
+    spotifyApi.getMySavedTracks({
+            limit: 30,
+            offset: 1
+        })
+        .then(data => {
+            let userSongs = [];
+            data.body.items.forEach(song => {
+                userSongs.push({
+                    name: song.track.name,
+                    imageUrl: song.track.album.images[0].url,
+                    artist: song.track.artists[0].name
+                });
+            })
+            spotifyApi.getMe()
+                .then(me => {
+                    id = me.body.id;
+                    name = me.body.display_name;
+                    location = '';
+                    database.addUser(id, name, location, userSongs)
+                });
+        });
 });
 
 app.post('/createSession', (req, res) => {
@@ -37,7 +64,7 @@ app.post('/createSession', (req, res) => {
     energy = req.body.energy;
     positivity = req.body.positivity;
     tempo = req.body.tempo;
-    session.addSession(name, location, range, danceability, energy, positivity, tempo);
+    database.addSession(name, location, range, danceability, energy, positivity, tempo);
     res.json('Success');
 })
 
