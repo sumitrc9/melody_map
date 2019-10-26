@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { TextField, Slider, Button } from '@material-ui/core';
-import "./AddSession.css"
-
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import "./AddSession.css";
 class AddSession extends Component {
 
   constructor(props) {
@@ -35,26 +36,28 @@ class AddSession extends Component {
       body: JSON.stringify({
         name: '',
         location: '',
-        range: '',
-        danceability: '0.0',
-        energy: '0.0',
-        positivity: '0.0',
-        tempo: '90',
+        range: 0,
+        danceability: 0.0,
+        energy: 0.0,
+        positivity: 0.0,
+        tempo: 90,
       })
     })
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <h1 className="title">Create the Melody Session</h1>
         <div className="options container">
           <p className="option">Name</p>
-          <TextField className="option-input" onChange={this.textChanged('name').bind(this)}/>
+          {/* Text input is super hacky right now */}
+          <TextField className="optionInput" onChange={this.textChanged('name').bind(this)}/>
           <p className="option">Location</p>
-          <TextField className="option-input" onChange={this.textChanged('location').bind(this)}/>
+          <TextField className="optionInput" onChange={this.textChanged('location').bind(this)}/>
           <p className="option">Range</p>
-          <TextField className="option-input" onChange={this.textChanged('range').bind(this)}/>
+          <TextField className="optionInput" onChange={this.textChanged('range').bind(this)}/>
         </div>
         <div className="qualities container">
           <p>Danceability</p> 
@@ -66,9 +69,10 @@ class AddSession extends Component {
           <p>Tempo</p>
           <Slider/>
         </div>
-        <Button onClick={this.submitInfo.bind(this)}>Submit</Button>
+        <Button className='button' onClick={this.submitInfo.bind(this)}>Submit</Button>
       </div>
     );
   }
 }
-export default AddSession;
+
+export default AddSession
