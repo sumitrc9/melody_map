@@ -27,7 +27,7 @@ console.log(hash.access_token);
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        token: 0,
+        token: hash.access_token,
     })
   })
 }

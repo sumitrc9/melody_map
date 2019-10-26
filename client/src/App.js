@@ -3,11 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import MapPage from './pages/MapPage';
-<<<<<<< HEAD
-import Redirect from './pages/Redirect'
-=======
+import Redirect from './pages/Redirect';
 import AddSession from './pages/AddSession';
->>>>>>> origin/master
 
 class App extends Component {
   render() {

@@ -24,7 +24,7 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/postToken', (req, res) => {
-
+	console.log(req.body);
 });
 
 app.post('/createSession', (req, res) => {
