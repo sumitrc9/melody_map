@@ -16,7 +16,8 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/postToken', (req, res) => {
-    console.log(req.body.value)
+	console.log("here")
+    console.log(req.body)
 });
 
 const port = process.env.PORT || 8080;

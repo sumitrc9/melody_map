@@ -4,6 +4,7 @@ import './App.css';
 import Home from './pages/Home';
 import List from './pages/List';
 import MapPage from './pages/MapPage';
+import Redirect from './pages/Redirect'
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <Route exact path='/' component={Home}/>
           <Route path='/list' component={List}/>
           <Route path='/map' component={MapPage}/>
+          <Route redirect='/redirect' component={Redirect}/>
         </Switch>
       </div>
     )
