@@ -52,6 +52,11 @@ app.post('/postToken', (req, res) => {
                     name = me.body.display_name;
                     location = '';
                     database.addUser(id, name, location, userSongs)
+                    user = {
+                        id: id,
+                        name: name
+                    }
+                    res.json(user)
                 });
         });
 });
