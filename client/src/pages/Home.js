@@ -32,7 +32,6 @@ function Logo(props) {
   This is the section of the screen that has the heading
 */
 function Header(props) {
-
   return (
     <div className="home-header-contaner">
       <h1 className="home-header-text"> Melody Maps </h1>
