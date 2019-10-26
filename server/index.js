@@ -5,6 +5,14 @@ const bodyParser = require('body-parser')
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
@@ -16,9 +24,13 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/postToken', (req, res) => {
-    console.log(req.body.value)
+    console.log(req.body)
 });
 
+app.post('/createSession', (req, res) => {
+    console.log(req.body)
+
+})
 const port = process.env.PORT || 8080;
 app.listen(port);
 
