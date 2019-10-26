@@ -16,15 +16,15 @@ class SessionPage extends Component {
       },
       nextUp: [
         {
-          song: 'Song 1',
+          name: 'Song 1',
           artist: 'Artist',
         },
         {
-          song: 'Song 2',
+          name: 'Song 2',
           artist: 'Artist',
         },
         {
-          song: 'Song 3',
+          name: 'Song 3',
           artist: 'Artist',
         }
       ]
@@ -36,16 +36,20 @@ class SessionPage extends Component {
       <div className="session-page-div">
         <SongPlayer/>
         <h2>Next Up</h2> 
-        <SongItem/>
-        <SongItem/>
-        <SongItem/>
+        <SongItem song={this.state.nextUp[0]}/>
+        <SongItem song={this.state.nextUp[1]}/>
+        <SongItem song={this.state.nextUp[2]}/>
         <h2>Current Section Characteristics</h2>
-        <div>Characteristic 1</div>
-        <div>Characteristic 2</div>
-        <div>Characteristic 3</div>
-        <div>Characteristic 4</div>
+        <div className="characteristicRow">
+          <div className="characteristic">{this.state.characteristics[0]}</div>
+          <div className="characteristic">{this.state.characteristics[1]}</div>
+        </div>
+        <div className="characteristicRow">
+          <div className="characteristic">{this.state.characteristics[2]}</div>
+          <div className="characteristic">{this.state.characteristics[3]}</div>
+        </div>
         <h2>Statistics</h2> 
-        <div>12 users listening</div> 
+        <div>{this.state.usersListening} users listening</div> 
       </div>
     );
   }
