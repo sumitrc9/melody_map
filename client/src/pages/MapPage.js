@@ -20,6 +20,17 @@ export class MapContainer extends Component {
             lng: position.coords.longitude
           }
         });
+
+        fetch('http://localhost:8080/updateLocation', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            location: this.state.center,
+          })
+        })
       }, function() {
         console.log("Component current position could not be retrieved")
         // handleLocationError(true, infoWindow, map.getCenter());
