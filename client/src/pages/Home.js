@@ -18,7 +18,7 @@ function Logo(props) {
 
   return (
     <div className="home-logo">
-      <img src={process.env.PUBLIC_URL + "/mm_logo.png"}/>
+      <img src={process.env.PUBLIC_URL + "/mm_logo.jpg"}/>
     </div>
   );
 }
