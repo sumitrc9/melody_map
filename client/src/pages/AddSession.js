@@ -46,7 +46,8 @@ class AddSession extends Component {
   render() {
     return (
       <div>
-        <h1 className="title">Create the Melody Session</h1>
+        <div id="grad"></div>
+        <h1 className="title">Create Melody Session</h1>
         <div className="options container">
           <p className="option">Name</p>
           {/* Text input is super hacky right now */}
@@ -66,7 +67,7 @@ class AddSession extends Component {
           <p>Tempo</p>
           <Slider/>
         </div>
-        <Button className='button' onClick={this.submitInfo.bind(this)}>Submit</Button>
+        <button type="button" className="button" onClick={this.submitInfo.bind(this)}>Submit</button>
       </div>
     );
   }
