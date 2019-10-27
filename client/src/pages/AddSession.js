@@ -7,9 +7,18 @@ class AddSession extends Component {
   constructor(props) {
     super(props)
 
+    var location = {
+      lat: 0.0,
+      lng: 0.0
+    }
+
+    if (props.location.state) {
+      location = props.location.state.location
+    }
+
     this.state = {
       name: '',
-      location: '',
+      location: location,
       range: '',
       danceability: '0.0',
       energy: '0.0',
@@ -23,6 +32,18 @@ class AddSession extends Component {
       var change = {}
       change[property] = event.target.value;
       this.setState(change)
+    }
+  }
+
+  locationChanged(property) {
+    return (event) => {
+      var change = this.state.location
+      change[property] = event.target.value;
+      this.setState({
+        location: change
+      }, () => {
+        console.log(this.state)
+      })
     }
   }
 
@@ -47,7 +68,8 @@ class AddSession extends Component {
           {/* Text input is super hacky right now */}
           <TextField className="optionInput" onChange={this.textChanged('name').bind(this)}/>
           <p className="option">Location</p>
-          <TextField className="optionInput" onChange={this.textChanged('location').bind(this)}/>
+          <TextField className="optionInput" onChange={this.locationChanged('lat').bind(this)} value={this.state.location.lat}/>
+          <TextField className="optionInput" onChange={this.locationChanged('lng').bind(this)} value={this.state.location.lng}/>
           <p className="option">Range</p>
           <TextField className="optionInput" onChange={this.textChanged('range').bind(this)}/>
         </div>
