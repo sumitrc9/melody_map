@@ -25,7 +25,7 @@ class RedirectPage extends Component {
   componentDidMount() {
     const cookies = new Cookies()
 
-    console.log(hash.access_token)
+    cookies.set('token', hash.access_token)
 
     fetch('http://localhost:8080/postToken', {
         method: 'POST',
@@ -50,7 +50,6 @@ class RedirectPage extends Component {
 
 	render() {
     if (this.state.redirect) {
-      console.log("render state", this.state.redirect)
       return <Redirect to="/map" />
     }
     return (

@@ -13,7 +13,9 @@ export const redirectUri = "http://localhost:3000/redirect";
 export const scopes = [
     "user-top-read",
     "user-read-email",
-    "user-library-read"
+    "user-library-read",
+    "streaming", 
+    "user-read-private"
 ];
 
 
