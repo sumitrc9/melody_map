@@ -1,5 +1,23 @@
+/* .container {
+  display: flex;
+  flex-direction: column;
+} */
+
 .music-controls {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  /* justify-content: flex-end; */
+  /* align-content: stretch; */
+  width: 90%;
+}
+
+.play {
+  justify-self: flex-start;
+  color:white;
+}
+
+.skip {
+  /* align-self: right; */
+  /* justify-self: flex-end; */
 }

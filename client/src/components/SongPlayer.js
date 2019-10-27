@@ -9,8 +9,12 @@ class SongPlayer extends Component {
 
   constructor(props) {
     super(props);
+
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     this.state = {
-      // token: "",
+      token: token,
       // deviceId: "",
       // loggedIn: false,
       // error: "",
@@ -21,6 +25,7 @@ class SongPlayer extends Component {
       position: 0,
       duration: 0,
       deviceId: '',
+      queue: props.queue,
     };
 
     this.playerCheckInterval = null;
@@ -36,11 +41,9 @@ class SongPlayer extends Component {
     if (window.Spotify !== null && window.Spotify !== undefined) {
       console.log("connecting to spotify", window.Spotify)
 
-      const cookies = new Cookies();
-      const token = cookies.get('token');
       this.player = new window.Spotify.Player({
         name: 'Melody Maps',
-        getOAuthToken: cb => { cb(token); }
+        getOAuthToken: cb => { cb(this.state.token); }
       });
     
       // Error handling
@@ -61,32 +64,13 @@ class SongPlayer extends Component {
           deviceId: device_id,
         })
 
-        console.log("session in props? ", this.props)
-        fetch('http://localhost:8080/getRec', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            session: this.props.session,
-          })
-        }).then((res) => {
-          res.json().then((body) => {
-            const bearer = 'Bearer ' +  token
-            fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
-              method: 'PUT',
-              headers: {
-                'Authorization': bearer,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ uris: [`spotify:track:${body[0]}`] }),
-            })
-          })
-        }).catch((err) => {
-          console.log("Error retrieving song from node", err)
-        })
+        this.extendQueue()
+        // .then( () => {
+          // const song = this.state.queue.pop();
+          // console.log("song: ", this.state.queue)
+          // this.playSong(song, this.state.token, device_id)
+        // })
+
       });
     
       // Not Ready
@@ -103,11 +87,48 @@ class SongPlayer extends Component {
     }
   }
 
+  extendQueue() {
+    return fetch('http://localhost:8080/getRec', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        session: this.props.session,
+      })
+    }).then((res) => {
+      res.json().then((body) => {
+          const queue = this.state.queue
+          const newQueue = queue.concat(body);
+          this.setState({
+            queue: newQueue,
+          })
+        })
+      })
+  }
+
+  playSong(songID, token, device_id) {
+    const bearer = 'Bearer ' +  token
+    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': bearer,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ uris: [`spotify:track:${songID}`] }),
+    })
+
+    if (this.state.queue.length <= 5) {
+      this.extendQueue()
+    }
+  }
+
   onStateChanged(state) {
     clearInterval(this.playerCheckInterval)
     // if we're no longer listening to music, we'll get a null state.
     if (state !== null) {
-      console.log("state", state); 
       const {
         current_track: currentTrack,
       } = state.track_window;
@@ -141,15 +162,17 @@ class SongPlayer extends Component {
   }
 
   pausePlay() {
-    this.player.togglePlay().then(() => {
-      console.log("Pause Play")
-    })
+    if (this.state.duration === 0) {
+      this.playSong(this.state.queue.shift(), this.state.token, this.state.deviceId);
+    } else {
+      this.player.togglePlay().then(() => {
+        console.log("Pause Play")
+      })
+    }
   }
 
   skipSong() {
-    this.player.nextTrack().then(() => {
-      console.log("Skip")
-    })
+    this.playSong(this.state.queue.shift(), this.state.token, this.state.deviceId);
   }
 
   render() {
@@ -158,9 +181,9 @@ class SongPlayer extends Component {
     return (
       <div>
         <div className="music-controls">
-          <PlayCircleOutlineIcon onClick={this.pausePlay.bind(this)}/>
+          <button onClick={this.pausePlay.bind(this)}><img src="/play.svg" className="play" /></button>
           <div>{displayName}</div>
-          <SkipNextIcon onClick={this.skipSong.bind(this)}/>
+          <SkipNextIcon className="skip" onClick={this.skipSong.bind(this)}/>
         </div>
         <LinearProgress variant="determinate" value={progress}/>
       </div>

@@ -14,20 +14,7 @@ class SessionPage extends Component {
         song: 'Song name',
         artist: 'Artist name',
       },
-      nextUp: [
-        {
-          name: 'Song 1',
-          artist: 'Artist',
-        },
-        {
-          name: 'Song 2',
-          artist: 'Artist',
-        },
-        {
-          name: 'Song 3',
-          artist: 'Artist',
-        }
-      ]
+      queue: []
     }
   }
 
@@ -36,11 +23,11 @@ class SessionPage extends Component {
     console.log("session", sessionID)
     return (
       <div className="session-page-div">
-        <SongPlayer className="song-player" session={sessionID} />
+        <SongPlayer className="song-player" session={sessionID}  queue={this.state.queue}/>
         <h2>Next Up</h2> 
-        <SongItem song={this.state.nextUp[0]}/>
-        <SongItem song={this.state.nextUp[1]}/>
-        <SongItem song={this.state.nextUp[2]}/>
+        <SongItem song={this.state.queue[0]}/>
+        <SongItem song={this.state.queue[1]}/>
+        <SongItem song={this.state.queue[2]}/>
         <h2>Current Section Characteristics</h2>
         <div className="characteristicRow">
           <div className="characteristic">{this.state.characteristics[0]}</div>
