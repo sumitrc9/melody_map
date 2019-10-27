@@ -37,7 +37,8 @@ p {
 .button {
   display: inline-block;
   border-radius: 4px;
-  background-color: #f4511e;
+  background-color: #ff397f;
+  border-radius: 2em;
   border: none;
   color: #FFFFFF;
   text-align: center;

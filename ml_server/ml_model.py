@@ -4,6 +4,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from keys import *
 
+
 """
 	artist is a string
 	this returns a random song from the top songs of this artist
@@ -55,6 +56,7 @@ def generate_recomendations(song_lists):
 	#get the frequency of each of the artists
 	artist_list = []
 	artists = {}
+
 	for user_list in song_lists:
 		for artist_data in user_list:
 			artist = artist_data["artist"]
@@ -85,5 +87,3 @@ def generate_recomendations(song_lists):
 		songs.append(get_random_song_for_artist(artist))
 
 	return songs
-
-generate_recomendations([[{"name":"Lose Yourself", "artist":"Eminem"}]])
