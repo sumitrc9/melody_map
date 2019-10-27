@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SongPlayer from '../components/SongPlayer'
-import SongItem from '../components/SongItem'
 import "./SessionPage.css"
 
 class SessionPage extends Component {
@@ -14,7 +13,7 @@ class SessionPage extends Component {
         song: 'Song name',
         artist: 'Artist name',
       },
-      queue: []
+      queue: [],
     }
   }
 
@@ -24,21 +23,6 @@ class SessionPage extends Component {
     return (
       <div className="session-page-div">
         <SongPlayer className="song-player" session={sessionID}  queue={this.state.queue}/>
-        <h2>Next Up</h2> 
-        <SongItem song={this.state.queue[0]}/>
-        <SongItem song={this.state.queue[1]}/>
-        <SongItem song={this.state.queue[2]}/>
-        <h2>Current Section Characteristics</h2>
-        <div className="characteristicRow">
-          <div className="characteristic">{this.state.characteristics[0]}</div>
-          <div className="characteristic">{this.state.characteristics[1]}</div>
-        </div>
-        <div className="characteristicRow">
-          <div className="characteristic">{this.state.characteristics[2]}</div>
-          <div className="characteristic">{this.state.characteristics[3]}</div>
-        </div>
-        <h2>Statistics</h2> 
-        <div>{this.state.usersListening} users listening</div> 
       </div>
     );
   }

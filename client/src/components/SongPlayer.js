@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Cookies from 'universal-cookie';
 import  './SongPlayer.css';
+import { Redirect } from 'react-router-dom';
 
 class SongPlayer extends Component {
 
@@ -108,7 +110,8 @@ class SongPlayer extends Component {
       })
   }
 
-  playSong(songID, token, device_id) {
+  playSong(song, token, device_id) {
+    console.log(song)
     const bearer = 'Bearer ' +  token
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
       method: 'PUT',
@@ -117,7 +120,7 @@ class SongPlayer extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ uris: [`spotify:track:${songID}`] }),
+      body: JSON.stringify({ uris: [song.uri] }),
     })
 
     if (this.state.queue.length <= 5) {
@@ -175,17 +178,99 @@ class SongPlayer extends Component {
     this.playSong(this.state.queue.shift(), this.state.token, this.state.deviceId);
   }
 
+  goBack() {
+    this.setState({
+      redirectBack: true,
+    });
+  }
+
   render() {
+
+    if (this.state.redirectBack) {
+      return <Redirect to='/map'/>
+    }
+
     const progress = ((1.0) * this.state.position) / this.state.duration * 100;
     const displayName = this.state.trackName + " - " + this.state.artistName;
+
+    var queue = [{
+      name: "Song",
+      artist: "Artist",
+      image: "",
+    },
+    {
+      name: "Song",
+      artist: "Artist",
+      image: "",
+    },
+    {
+      name: "Song",
+      artist: "Artist",
+      image: "",
+    },
+    {
+      name: "Song",
+      artist: "Artist",
+      image: "",
+    },
+    {
+      name: "Song",
+      artist: "Artist",
+      image: "",
+    }]
+    if (this.state.queue.length >= 5) {
+      queue = this.state.queue
+    }
     return (
       <div>
         <div className="music-controls">
-          <button onClick={this.pausePlay.bind(this)}><img src="/play.svg" className="play" /></button>
-          <div>{displayName}</div>
-          <SkipNextIcon className="skip" onClick={this.skipSong.bind(this)}/>
+          <ArrowBackIosIcon style={{fill: 'white'}} onClick={this.goBack.bind(this)}/>
+          <PlayCircleOutlineIcon style={{fill: 'white'}} onClick={this.pausePlay.bind(this)} src="/play.svg" className="play" />
+          <div className="display">{displayName.substring(0, 70)}</div>
+          <SkipNextIcon style={{fill: 'white'}} className="skip" onClick={this.skipSong.bind(this)}/>
         </div>
-        <LinearProgress variant="determinate" value={progress}/>
+        <LinearProgress className="progress" variant="determinate" value={progress}/>
+        <h2>Next Up</h2> 
+
+        <div className="song-item-div">
+          <img className="album-art" src={queue[0].image} style={{width: '50px',  height: '50px'}}/>
+          <div className="info">
+            <div className="song-name">{queue[0].name.substring(0,100)}</div>
+            <div className="song-artist">{queue[0].artist}</div>
+          </div>
+        </div>
+
+        <div className="song-item-div">
+          <img className="album-art" src={queue[1].image} style={{width: '50px',  height: '50px'}}/>
+          <div className="info">
+            <div className="song-name">{queue[1].name.substring(0,100)}</div>
+            <div className="song-artist">{queue[1].artist}</div>
+          </div>
+        </div>
+
+        <div className="song-item-div">
+          <img className="album-art" src={queue[2].image} style={{width: '50px',  height: '50px'}}/>
+          <div className="info">
+            <div className="song-name">{queue[2].name.substring(0,100)}</div>
+            <div className="song-artist">{queue[2].artist}</div>
+          </div>
+        </div>
+
+        <div className="song-item-div">
+          <img className="album-art" src={queue[3].image} style={{width: '50px',  height: '50px'}}/>
+          <div className="info">
+            <div className="song-name">{queue[3].name.substring(0,100)}</div>
+            <div className="song-artist">{queue[3].artist}</div>
+          </div>
+        </div>
+
+        <div className="song-item-div">
+          <img className="album-art" src={queue[4].image} style={{width: '50px',  height: '50px'}}/>
+          <div className="info">
+            <div className="song-name">{queue[4].name.substring(0,100)}</div>
+            <div className="song-artist">{queue[4].artist}</div>
+          </div>
+        </div>
       </div>
     )
   }
