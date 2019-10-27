@@ -3,7 +3,6 @@ import "./SongItem.css"
 
 class SongItem extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="song-item-div">
         <div className="song-name">{this.props.song.name}</div>

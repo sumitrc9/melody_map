@@ -34,7 +34,7 @@ class SessionPage extends Component {
   render() {
     return (
       <div className="session-page-div">
-        <SongPlayer/>
+        <SongPlayer className="song-player"/>
         <h2>Next Up</h2> 
         <SongItem song={this.state.nextUp[0]}/>
         <SongItem song={this.state.nextUp[1]}/>
