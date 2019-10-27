@@ -27,7 +27,7 @@ function Logo(props) {
       <br/>
       <br/>
       <br/>
-      <img src={process.env.PUBLIC_URL + "/mm_logo.jpg"}/>
+      <img src={process.env.PUBLIC_URL + "/mm_logo.png"}/>
     </div>
   );
 }
