@@ -9,6 +9,7 @@ runtime_config:
 # The settings below are to reduce costs during testing and are not appropriate
 # for production use. For more information, see:
 # https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
+# runs on melodymaps.apphost.com
 manual_scaling:
   instances: 1
 resources:
