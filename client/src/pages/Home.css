@@ -20,7 +20,7 @@
 .home-header-text {
 	font-size: 10vmin;
 	font-weight: bold;
-	color:white;
+	color:#72eae0;
 	font-family: 'Roboto' ;
 }
 
@@ -43,7 +43,6 @@
 .btn {
   background-color: #ff397f;
   border-radius: 2em;
-  border: 0.2em solid #ff397f;
   color: white;
   cursor: pointer;
   font-size: 5vmin;
