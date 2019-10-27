@@ -3,6 +3,7 @@ import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { Redirect } from 'react-router-dom';
 import * as constants from '../constants';
 import Cookies from 'universal-cookie';
+import { Button } from '@material-ui/core';
 
 export class MapContainer extends Component {
 
@@ -11,7 +12,7 @@ export class MapContainer extends Component {
     this.state = defaultState
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const cookies = new Cookies();
     if (navigator.geolocation) {
 
@@ -45,18 +46,35 @@ export class MapContainer extends Component {
     }
   }
 
+  createSession() {
+    this.setState({
+      toCreateSession: true,
+    })
+  }
+
   render() {
     if (this.state.toSession === true) {
       return <Redirect to='/session'/>
     }
 
-    return (
-      <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
+    if (this.state.toCreateSession === true) {
+      return <Redirect to={{
+          pathname: '/addsession',
+          state: { location: this.state.center }
+        }}
+      />
+    }
 
-        <Marker position={this.state.center}
-                onClick={this.onMarkerClick.bind(this)}
-                name={'Current location'} />
-      </Map>
+    return (
+      <div>
+        <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
+
+          <Marker position={this.state.center}
+                  onClick={this.onMarkerClick.bind(this)}
+                  name={'Current location'} />
+        </Map>
+        <Button style={{backgroundColor: 'white'}} onClick={this.createSession.bind(this)}>Create Session</Button>
+      </div>
     );
   }
 
