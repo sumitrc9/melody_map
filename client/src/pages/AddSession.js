@@ -99,9 +99,12 @@ class AddSession extends Component {
           <p className="option">Session Name</p>
           {/* Text input is super hacky right now */}
           <TextField className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.textChanged('name').bind(this)}/>
+          <br/>
           <p className="option">Location</p>
-          <TextField  type="number"  className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lat').bind(this)} value={this.state.location.lat}/>
-          <TextField  type="number" className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lng').bind(this)} value={this.state.location.lng}/>
+          <TextField  label="Longitude" type="number"   InputLabelProps={{style: { color: '#fff' },}} className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lat').bind(this)} value={this.state.location.lat}/>
+          <br/>
+          <TextField  label="Latitude" type="number" InputLabelProps={{style: { color: '#fff' },}} className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lng').bind(this)} value={this.state.location.lng}/>
+          <br/>
           <p className="option">Range(miles)</p>
           <TextField type="number" className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.textChanged('range').bind(this)}/>
         </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Circle, Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { Redirect } from 'react-router-dom';
 import * as constants from '../constants';
 import Cookies from 'universal-cookie';
@@ -52,13 +52,14 @@ export class MapContainer extends Component {
           }).then((res) => {
             res.json().then((body) => {
               const { allSessions, joinedSession } = body
-              console.log("all", allSessions)
+              console.log("all", allSessions);
               this.setState({
                 markers: allSessions.map((obj) => {
                   return {
                     session: obj[0],
                     location: obj[1].location,
                     name: obj[1].name,
+                    radius: obj[1].range
                   }
                 })
               }, () => {
@@ -117,12 +118,12 @@ export class MapContainer extends Component {
     const markers = this.state.markers;
     //add current location marker as a person icon
 
-    console.log(markers)
-
     return (
       <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
-          {markers.map(marker => <Marker 
+          {
+            markers.map(marker => 
+                                  <Marker 
                                     key={marker.session} 
                                     name={marker.name} 
                                     position={marker.location} 
@@ -132,8 +133,9 @@ export class MapContainer extends Component {
                                       anchor: new this.props.google.maps.Point(32,32),
                                       scaledSize: new this.props.google.maps.Size(64,64)
                                     }}
-                                  />
-                                )}
+                                  />)
+          }
+
           <Marker 
             position={this.state.center} 
             icon={{
