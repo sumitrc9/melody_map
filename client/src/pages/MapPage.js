@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Circle, Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Polygon, Circle, Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { Redirect } from 'react-router-dom';
 import * as constants from '../constants';
 import Cookies from 'universal-cookie';
@@ -7,6 +7,39 @@ import { Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import "./MapPage.css";
+
+
+function generatePolygon(marker) {
+      let path = [];
+
+    const ratio = 1/690.17;
+
+    var step = 2*Math.PI/40;  // see note 1
+    var h = marker.location.lat; 
+    var k = marker.location.lng;
+    var r = marker.radius * ratio;
+
+    for(var theta=0;  theta < 2*Math.PI;  theta+=step)
+     { var x = h + r*Math.cos(theta);
+       var y = k - r*Math.sin(theta);    //note 2.
+       path.push({lat:x,lng:y});
+     }
+
+     return path
+}
+
+function generatePolygons(markers) {
+
+  let polygonPaths = []
+
+  for(var i = 0; i < markers.length; i++) {
+    let polygon = generatePolygon(markers[i]);
+    polygonPaths.push(polygon)
+  }
+
+  return polygonPaths
+
+}
 
 export class MapContainer extends Component {
 
@@ -115,15 +148,22 @@ export class MapContainer extends Component {
       />
     }
 
-    const markers = this.state.markers;
+    let markers = this.state.markers;
     //add current location marker as a person icon
+    const polygons = generatePolygons(markers);
+    console.log(polygons)
+    markers = markers.map((marker, index) => {
+      return {...marker, path:polygons[index]}
+    })
+
+    console.log(markers)
 
     return (
       <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
           {
             markers.map(marker => 
-                                  <Marker 
+                                   [ <Marker 
                                     key={marker.session} 
                                     name={marker.name} 
                                     position={marker.location} 
@@ -133,7 +173,26 @@ export class MapContainer extends Component {
                                       anchor: new this.props.google.maps.Point(32,32),
                                       scaledSize: new this.props.google.maps.Size(64,64)
                                     }}
-                                  />)
+                                  />
+                                  ,
+
+                                    <Polygon
+                                        fillColor="#ff397f"
+                                        fillOpacity={0.1}
+                                        paths={marker.path}
+                                        strokeColor="#0000FF"
+                                        strokeOpacity={0.8}
+                                        strokeWeight={2}
+                                      />
+                                  ]
+                                  )
+          }
+
+          {
+              polygons.map(path => {
+      
+              })
+                   
           }
 
           <Marker 
@@ -144,6 +203,7 @@ export class MapContainer extends Component {
               scaledSize: new this.props.google.maps.Size(48,48)
             }}
           />
+
         </Map>
         <div className="button-container">
           <Fab color="secondary" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
