@@ -48,17 +48,24 @@ class AddSession extends Component {
     }
   }
 
-  submitInfo() {
+  async submitInfo() {
     const cookies = new Cookies();
+
+    console.log("submi")
+
     const stateCopy = {...this.state};
     delete stateCopy["redirect"]
-
     fetch('http://localhost:8080/createSession', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({...stateCopy, id: cookies.get('id')})
+    }).then(() => {
+      console.log("Redirect")
+      this.setState({redirect: true});
+    }).catch(() => {
+      console.log("Sad")
     })
   }
 
@@ -93,16 +100,7 @@ class AddSession extends Component {
         <button 
           type="button" 
           className="button" 
-          onClick={() => {
-              this.submitInfo.bind(this); 
-              this.setState(
-                {
-                  ...this.state,
-                  redirect: true
-                }
-              );
-            }
-          }
+          onClick={this.submitInfo.bind(this)}
         >
           Submit
         </button>

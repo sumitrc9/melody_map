@@ -50,7 +50,21 @@ export class MapContainer extends Component {
               id: cookies.get('id')
             })
           }).then((res) => {
-            console.log("Response received from getSession: ", res)
+            res.json().then((body) => {
+              const { allSessions, joinedSession } = body
+              console.log("all", allSessions)
+              this.setState({
+                markers: allSessions.map((obj) => {
+                  return {
+                    id: obj[0],
+                    location: obj[1].location,
+                    name: obj[1].name,
+                  }
+                })
+              }, () => {
+                console.log("markers", this.state.markers)
+              });
+            })
           }).catch((err) => {
             console.log("Error on getSessions: ", err)
           })
@@ -87,13 +101,14 @@ export class MapContainer extends Component {
       />
     }
 
+    const markers = this.state.markers;
+
+    console.log(markers)
+
     return (
       <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
-
-          <Marker position={this.state.center}
-                  onClick={this.onMarkerClick.bind(this)}
-                  name={'Current location'} />
+          {markers.map(marker => <Marker key={marker.name} name={marker.name} position={marker.location} onClick={this.onMarkerClick.bind(this)}/>)}
         </Map>
         <div className="button-container">
           <Fab color="white" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
@@ -115,7 +130,8 @@ const defaultState = {
   center: {
     lat: 33.7709925,
     lng: -84.4037136
-  }
+  },
+  markers: [],
 }
 
 
