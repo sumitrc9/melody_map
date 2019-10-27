@@ -30,10 +30,11 @@ app.post('/updateLocation', (req, res) => {
     let id = req.body.id;
     let location = req.body.location;
     database.updateUserLocation(id, location);
+    res.json('Success');
 });
 
-app.get('/getSessions', (req, res) => {
-    //MAKE SURE TO GET CURRENT LOCATION
+app.post('/getSessions', (req, res) => {
+    //MAKE SURE TO GET CURRENT LOCATION and USERID
 
     let getDistance = (a, b) => {
         let aLat = a.lat / Math.PI;
@@ -52,6 +53,7 @@ app.get('/getSessions', (req, res) => {
             return getDistance(location, b) < range;
         });
     });
+    database.addUserToSession()
     // find all the sessions in the vicinity of the user
     // add all the users to the sessions
 });
