@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TextField, Slider, Button } from '@material-ui/core';
 import "./AddSession.css";
-import { Cookies } from 'universal-cookie';
+import Cookies from 'universal-cookie';
 class AddSession extends Component {
 
   constructor(props) {
