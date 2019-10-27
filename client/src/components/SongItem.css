@@ -1,0 +1,13 @@
+.song-item-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+}
+
+.song-name {
+}
+
+.song-artist {
+}

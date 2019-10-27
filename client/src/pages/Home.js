@@ -11,7 +11,9 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 export const clientId = "ce3c222b70fc46e2957d643195b432fb";
 export const redirectUri = "http://localhost:3000/redirect";
 export const scopes = [
-    "user-top-read"
+    "user-top-read",
+    "user-read-email",
+    "user-library-read"
 ];
 
 
@@ -32,7 +34,6 @@ function Logo(props) {
   This is the section of the screen that has the heading
 */
 function Header(props) {
-
   return (
     <div className="home-header-contaner">
       <h1 className="home-header-text"> Melody Maps </h1>

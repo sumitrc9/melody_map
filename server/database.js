@@ -1,6 +1,6 @@
 const admin = require('firebase-admin')
 
-const serviceAccount = require('../melodymaps-firebase-adminsdk-loznj-eb2f09b6bf.json')
+const serviceAccount = require('./melodymaps-firebase-adminsdk-loznj-eb2f09b6bf.json')
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -8,11 +8,11 @@ admin.initializeApp({
 });
 
 const database = admin.database();
-const ref = database.ref('sessions')
 
 module.exports.addSession = (name, location, range, danceability, energy, positivity, tempo) => {
-    ref.once('value', snapshot => {
-        ref.push({
+    let sessionRef = database.ref('sessions')
+    sessionRef.once('value', snapshot => {
+        sessionRef.push({
             name,
             location,
             range,
@@ -22,4 +22,15 @@ module.exports.addSession = (name, location, range, danceability, energy, positi
             tempo
         });
     })
+}
+
+module.exports.addUser = (id, name, location, songs) => {
+    let usersRef = database.ref('users');
+    usersRef.once('value', snapshot => {
+        usersRef.child(id).set({
+            name,
+            location,
+            songs
+        }); 
+    });
 }
