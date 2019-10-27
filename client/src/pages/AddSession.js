@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TextField, Slider, Button } from '@material-ui/core';
 import "./AddSession.css";
+import { Cookies } from 'universal-cookie';
 class AddSession extends Component {
 
   constructor(props) {
@@ -26,6 +27,7 @@ class AddSession extends Component {
   }
 
   submitInfo() {
+    const cookies = new Cookies();
     fetch('http://localhost:8080/createSession', {
       method: 'POST',
       headers: {
@@ -39,6 +41,7 @@ class AddSession extends Component {
         energy: 0.0,
         positivity: 0.0,
         tempo: 90,
+        id: cookies.get('id'),
       })
     })
   }
