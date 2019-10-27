@@ -54,16 +54,7 @@ class AddSession extends Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        name: '',
-        location: '',
-        range: 0,
-        danceability: 0.0,
-        energy: 0.0,
-        positivity: 0.0,
-        tempo: 90,
-        id: cookies.get('id'),
-      })
+      body: JSON.stringify({...this.state, id: cookies.get('id')})
     })
   }
 
