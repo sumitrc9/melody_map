@@ -1,23 +1,54 @@
-/* .container {
-  display: flex;
-  flex-direction: column;
-} */
-
 .music-controls {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
+  align-content: center;
+  margin-bottom: 5px;
   /* justify-content: flex-end; */
   /* align-content: stretch; */
-  width: 90%;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.display {
+  font-weight: bold;
 }
 
 .play {
   justify-self: flex-start;
   color:white;
+  margin-right: auto;
 }
 
 .skip {
+  margin-left: auto;
   /* align-self: right; */
   /* justify-self: flex-end; */
+}
+
+.song-item-div {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.progress {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.song-name {
+  font-weight: bolder;
+  font-size: 1.1em;
+}
+
+.song-artist {
+  font-size: .9em;
 }

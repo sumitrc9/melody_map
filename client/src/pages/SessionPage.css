@@ -17,7 +17,7 @@ h2 {
 .characteristicRow {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .characteristic {
