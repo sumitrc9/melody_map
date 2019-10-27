@@ -33,7 +33,27 @@ app.post('/updateLocation', (req, res) => {
 });
 
 app.get('/getSessions', (req, res) => {
+    //MAKE SURE TO GET CURRENT LOCATION
 
+    let getDistance = (a, b) => {
+        let aLat = a.lat / Math.PI;
+        let bLat = b.lat / Math.PI;
+        let aLng = a.lng / Math.PI;
+        let bLng = b.lng / Math.PI;
+        return 3960 * Math.acos(Math.sin(aLat) * Math.sin(bLat) + Math.cos(aLat) * Math.cos(bLat) * Math.cos(bLng - aLng));
+    }
+
+    location = req.body.location;
+    database.getSessions(sessions => {
+        allSessionList = sessions;
+        sessions = sessions.filter(session => {
+            let range = session[1].range;
+            let b = session[1].location;
+            return getDistance(location, b) < range;
+        });
+    });
+    // find all the sessions in the vicinity of the user
+    // add all the users to the sessions
 });
 
 app.post('/postToken', (req, res) => {
@@ -76,7 +96,8 @@ app.post('/createSession', (req, res) => {
     energy = req.body.energy;
     positivity = req.body.positivity;
     tempo = req.body.tempo;
-    database.addSession(name, location, range, danceability, energy, positivity, tempo);
+    idArr = [req.body.id];
+    database.addSession(name, location, range, danceability, energy, positivity, tempo, idArr);
     res.json('Success');
 })
 
