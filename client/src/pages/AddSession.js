@@ -68,8 +68,7 @@ class AddSession extends Component {
     }
 
     return (
-      <div>
-        <div id="grad"></div>
+      <div className="add-session-container">
         <h1 className="title">Create Melody Session</h1>
         <div className="options container">
           <p className="option">Name</p>

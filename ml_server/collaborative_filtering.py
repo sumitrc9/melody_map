@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import operator
 import warnings
+import pickle
 warnings.filterwarnings('ignore')
 
 
@@ -75,7 +76,11 @@ def top_5():
     return top_5_map
 
 top_5_map = top_5()
-print(top_5_map["Red Hot Chili Peppers"])
+unique_file_name = 'save.p'
+
+pickle.dump(top_5_map, open( "models/"+unique_file_name, "wb" ))
+
+
 #do the collaborative filtering
 
 

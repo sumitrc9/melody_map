@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pandas as pd
-import * from keys
+from keys import *
 
 """
 	Get a list of categories

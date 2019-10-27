@@ -1,6 +1,7 @@
 .home-main-div {
 	margin: 0;
 	padding: 0;
+  background-color: #101d5b;
 }
 
 .home-background-image {
@@ -19,7 +20,7 @@
 .home-header-text {
 	font-size: 10vmin;
 	font-weight: bold;
-	color:black;
+	color:white;
 	font-family: 'Roboto' ;
 }
 
@@ -35,21 +36,14 @@
 	width: 100%;
 }
 
-.home-bg {
-	background-color: #0e1626;
-}
-
-body {
-  background-color: #d36dc3;
-}
 
 
 /** Buttons **/
 
 .btn {
-  background-color: #1aa34a;
+  background-color: #ff397f;
   border-radius: 2em;
-  border: 0.2em solid #1aa34a;
+  border: 0.2em solid #ff397f;
   color: white;
   cursor: pointer;
   font-size: 5vmin;
@@ -60,8 +54,8 @@ body {
 }
 
 .btn:hover {
-  background: #1aa34a;
-  color: white;
+  background: #c4c4c4;
+  color: black;
 }
 
 .btn--login {
