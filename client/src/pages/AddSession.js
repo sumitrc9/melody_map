@@ -63,9 +63,14 @@ class AddSession extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({...stateCopy, id: cookies.get('id')})
-    }).then(() => {
-      console.log("Redirect")
-      this.setState({redirect: true});
+    }).then((res) => {
+      res.json().then((body) => {
+        console.log("bodie", body)
+        this.setState({
+          session: body,
+          redirect: true,
+        });
+      })
     }).catch(() => {
       console.log("Sad")
     })
@@ -73,7 +78,11 @@ class AddSession extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/session'/>;
+      console.log("beep", this.state.session)
+      return <Redirect to={{
+        pathname: '/session',
+        state: { session: this.state.session },
+      }}/>;
     }
 
     const muiTheme = createMuiTheme({

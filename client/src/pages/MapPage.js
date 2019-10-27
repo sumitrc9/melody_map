@@ -56,7 +56,7 @@ export class MapContainer extends Component {
               this.setState({
                 markers: allSessions.map((obj) => {
                   return {
-                    id: obj[0],
+                    session: obj[0],
                     location: obj[1].location,
                     name: obj[1].name,
                   }
@@ -88,9 +88,22 @@ export class MapContainer extends Component {
     })
   }
 
+  onMarkerClick(session) {
+    return () => {
+      console.log("sessionId on click", session)
+      this.setState(() => ({
+        session: session,
+        toSession: true,
+    }))}
+  }
+
   render() {
     if (this.state.toSession === true) {
-      return <Redirect to='/session'/>
+      console.log("sessionid right before send", this.state.session)
+      return <Redirect to={{
+        pathname: '/session',
+        state: { session: this.state.session },
+      }}/>
     }
 
     if (this.state.toCreateSession === true) {
@@ -108,7 +121,7 @@ export class MapContainer extends Component {
     return (
       <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
-          {markers.map(marker => <Marker key={marker.name} name={marker.name} position={marker.location} onClick={this.onMarkerClick.bind(this)}/>)}
+          {markers.map(marker => <Marker key={marker.session} name={marker.name} position={marker.location} onClick={this.onMarkerClick(marker.session).bind(this)}/>)}
         </Map>
         <div className="button-container">
           <Fab color="secondary" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
@@ -117,12 +130,6 @@ export class MapContainer extends Component {
         </div>
       </div>
     );
-  }
-
-  onMarkerClick() {
-    this.setState(() => ({
-      toSession: true
-    }))
   }
 }
 

@@ -47,7 +47,7 @@ app.post('/getRec', (req, res) => {
     let session = req.body.session;
     database.getSession(session, (s => {
         database.getUserSongs(s[1].idArr, songList => {
-            request.post('http://localhost:5000/getSong', { json: JSON.stringify(songList) }, (err, res_in, body) => console.log(body));
+            request.post('http://localhost:5000/getSong', { json: JSON.stringify(songList) }, (err, res_in, body) => res.json(body));
         });
     }));
 });
