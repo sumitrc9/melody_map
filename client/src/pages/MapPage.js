@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom';
 import * as constants from '../constants';
 import Cookies from 'universal-cookie';
 import { Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import "./MapPage.css";
 
 export class MapContainer extends Component {
 
@@ -24,6 +27,7 @@ export class MapContainer extends Component {
             lng: position.coords.longitude
           }
         });
+
         fetch('http://localhost:8080/updateLocation', {
           method: 'POST',
           headers: {
@@ -84,14 +88,18 @@ export class MapContainer extends Component {
     }
 
     return (
-      <div>
+      <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
 
           <Marker position={this.state.center}
                   onClick={this.onMarkerClick.bind(this)}
                   name={'Current location'} />
         </Map>
-        <Button style={{backgroundColor: 'white'}} onClick={this.createSession.bind(this)}>Create Session</Button>
+        <div className="button-container">
+          <Fab color="white" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
+            <AddIcon />
+          </Fab>
+        </div>
       </div>
     );
   }
