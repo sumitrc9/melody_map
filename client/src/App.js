@@ -9,6 +9,7 @@ import SessionPage from './pages/SessionPage';
 
 class App extends Component {
   render() {
+    
     const App = () => (
       <div className="App">
         <Switch>
