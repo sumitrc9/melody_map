@@ -45,6 +45,7 @@ app.post('/getSessions', (req, res) => {
     }
 
     location = req.body.location;
+    id = req.body.id;
     database.getSessions(sessions => {
         allSessionList = sessions;
         sessions = sessions.filter(session => {
@@ -52,8 +53,13 @@ app.post('/getSessions', (req, res) => {
             let b = session[1].location;
             return getDistance(location, b) < range;
         });
+        sessions.forEach(session => database.addUserToSession(session[0], id));
+        res.json({
+            allSessions: allSessionList,
+            joinedSessions: sessions
+        });
     });
-    database.addUserToSession()
+    //database.addUserToSession()
     // find all the sessions in the vicinity of the user
     // add all the users to the sessions
 });

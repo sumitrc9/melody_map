@@ -25,12 +25,32 @@ module.exports.addSession = (name, location, range, danceability, energy, positi
     })
 }
 
+module.exports.addUserToSession = (session, id) => {
+    let sessionRef = database.ref('sessions');
+    sessionRef.once('value', snapshot => {
+        let entry = Object.entries(snapshot.val()).filter(val => val[0] == session);
+        let idArr = [...entry[0][1].idArr];
+        let containsId = false;
+        for (i = 0; i < idArr.length; i++) {
+            if (idArr[i] == id) {
+                containsId = true;
+                break;
+            }
+        }
+        if (!containsId) {
+            idArr.push(id);
+            entry[0][1].idArr = idArr;
+            sessionRef.child(session).set(entry[0][1]);
+        }        
+    });
+}
+
 module.exports.getSessions = callback => {
     let sessionRef = database.ref('sessions');
     sessionRef.once('value', snapshot => {
         let entries = Object.entries(snapshot.val());
         callback(entries);
-    })
+    });
 }
 
 module.exports.addUser = (id, name, location, songs) => {
