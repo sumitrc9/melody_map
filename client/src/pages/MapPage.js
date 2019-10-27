@@ -34,6 +34,24 @@ export class MapContainer extends Component {
             location: this.state.center,
             id: cookies.get('id')
           })
+        }).then(() => {
+          fetch('http://localhost:8080/getSessions', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              location: this.state.center,
+              id: cookies.get('id')
+            })
+          }).then((res) => {
+            console.log("Response received from getSession: ", res)
+          }).catch((err) => {
+            console.log("Error on getSessions: ", err)
+          })
+        }).catch((err) => {
+          console.log("Error on updateLocation: ", err)
         })
       }, function() {
         console.log("Component current position could not be retrieved")
