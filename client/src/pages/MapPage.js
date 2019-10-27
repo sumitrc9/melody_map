@@ -115,13 +115,33 @@ export class MapContainer extends Component {
     }
 
     const markers = this.state.markers;
+    //add current location marker as a person icon
 
-
+    console.log(markers)
 
     return (
       <div className="map-page">
         <Map initialCenter={{lat:33.7709925, lng:-84.4037136}} center={this.state.center} google={this.props.google} disableDefaultUI={true} zoom={14} styles={constants.mapStyles}>
-          {markers.map(marker => <Marker key={marker.session} name={marker.name} position={marker.location} onClick={this.onMarkerClick(marker.session).bind(this)}/>)}
+          {markers.map(marker => <Marker 
+                                    key={marker.session} 
+                                    name={marker.name} 
+                                    position={marker.location} 
+                                    onClick={this.onMarkerClick(marker.session).bind(this)}
+                                    icon={{
+                                      url: "/music_note.png",
+                                      anchor: new this.props.google.maps.Point(32,32),
+                                      scaledSize: new this.props.google.maps.Size(64,64)
+                                    }}
+                                  />
+                                )}
+          <Marker 
+            position={this.state.center} 
+            icon={{
+              url: "/accessibility_pink_144x144.png",
+              anchor: new this.props.google.maps.Point(24,24),
+              scaledSize: new this.props.google.maps.Size(48,48)
+            }}
+          />
         </Map>
         <div className="button-container">
           <Fab color="secondary" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
