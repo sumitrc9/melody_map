@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TextField, Slider, Button } from '@material-ui/core';
 import "./AddSession.css";
 import Cookies from 'universal-cookie';
+import { Redirect } from 'react-router-dom';
 class AddSession extends Component {
 
   constructor(props) {
@@ -49,16 +50,23 @@ class AddSession extends Component {
 
   submitInfo() {
     const cookies = new Cookies();
+    const stateCopy = {...this.state};
+    delete stateCopy["redirect"]
+
     fetch('http://localhost:8080/createSession', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({...this.state, id: cookies.get('id')})
+      body: JSON.stringify({...stateCopy, id: cookies.get('id')})
     })
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to='/session'/>;
+    }
+
     return (
       <div>
         <div id="grad"></div>
@@ -83,7 +91,22 @@ class AddSession extends Component {
           <p>Tempo</p>
           <Slider/>
         </div>
-        <button type="button" className="button" onClick={this.submitInfo.bind(this)}>Submit</button>
+        <button 
+          type="button" 
+          className="button" 
+          onClick={() => {
+              this.submitInfo.bind(this); 
+              this.setState(
+                {
+                  ...this.state,
+                  redirect: true
+                }
+              );
+            }
+          }
+        >
+          Submit
+        </button>
       </div>
     );
   }
