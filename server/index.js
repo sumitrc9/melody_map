@@ -120,8 +120,9 @@ app.post('/createSession', (req, res) => {
     positivity = req.body.positivity;
     tempo = req.body.tempo;
     idArr = [req.body.id];
-    database.addSession(name, location, range, danceability, energy, positivity, tempo, idArr);
-    res.json('Success');
+    database.addSession(name, location, range, danceability, energy, positivity, tempo, idArr, sessionHash => {
+        res.json(sessionHash);
+    });
 })
 
 const port = process.env.PORT || 8080;

@@ -9,10 +9,10 @@ admin.initializeApp({
 
 const database = admin.database();
 
-module.exports.addSession = (name, location, range, danceability, energy, positivity, tempo, idArr) => {
+module.exports.addSession = (name, location, range, danceability, energy, positivity, tempo, idArr, callback) => {
     let sessionRef = database.ref('sessions');
     sessionRef.once('value', snapshot => {
-        sessionRef.push({
+        let newRef = sessionRef.push({
             name,
             location,
             range,
@@ -22,6 +22,7 @@ module.exports.addSession = (name, location, range, danceability, energy, positi
             tempo,
             idArr
         });
+        callback(newRef.path.pieces_[1]);
     })
 }
 
