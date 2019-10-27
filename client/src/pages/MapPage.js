@@ -103,7 +103,7 @@ export class MapContainer extends Component {
 
     const markers = this.state.markers;
 
-    console.log(markers)
+
 
     return (
       <div className="map-page">
@@ -111,7 +111,7 @@ export class MapContainer extends Component {
           {markers.map(marker => <Marker key={marker.name} name={marker.name} position={marker.location} onClick={this.onMarkerClick.bind(this)}/>)}
         </Map>
         <div className="button-container">
-          <Fab color="white" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
+          <Fab color="secondary" aria-label="add" className="add-session-button" onClick={this.createSession.bind(this)}>
             <AddIcon />
           </Fab>
         </div>

@@ -4,11 +4,13 @@ h1 {
   margin-bottom: 10px;
   font-size: 2em;
   font-weight: bold;
+  color:white;
 }
 
 p {
   margin-top: 5px;
   margin-bottom: 5px;
+  color:white;
 }
 
 .options {
@@ -24,6 +26,7 @@ p {
   margin-right: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+  color:white;
 }
 
 .qualities {

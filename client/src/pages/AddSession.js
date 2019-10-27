@@ -3,6 +3,10 @@ import { TextField, Slider, Button } from '@material-ui/core';
 import "./AddSession.css";
 import Cookies from 'universal-cookie';
 import { Redirect } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+
+
 class AddSession extends Component {
 
   constructor(props) {
@@ -51,8 +55,6 @@ class AddSession extends Component {
   async submitInfo() {
     const cookies = new Cookies();
 
-    console.log("submi")
-
     const stateCopy = {...this.state};
     delete stateCopy["redirect"]
     fetch('http://localhost:8080/createSession', {
@@ -74,29 +76,27 @@ class AddSession extends Component {
       return <Redirect to='/session'/>;
     }
 
+    const muiTheme = createMuiTheme({
+        slider: {
+          trackColor: 'yellow',
+          selectionColor: 'green'
+        },
+    })
+
     return (
       <div className="add-session-container">
         <h1 className="title">Create Melody Session</h1>
         <div className="options container">
-          <p className="option">Name</p>
+          <p className="option">Session Name</p>
           {/* Text input is super hacky right now */}
-          <TextField className="optionInput" onChange={this.textChanged('name').bind(this)}/>
+          <TextField className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.textChanged('name').bind(this)}/>
           <p className="option">Location</p>
-          <TextField className="optionInput" onChange={this.locationChanged('lat').bind(this)} value={this.state.location.lat}/>
-          <TextField className="optionInput" onChange={this.locationChanged('lng').bind(this)} value={this.state.location.lng}/>
-          <p className="option">Range</p>
-          <TextField className="optionInput" onChange={this.textChanged('range').bind(this)}/>
+          <TextField  type="number"  className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lat').bind(this)} value={this.state.location.lat}/>
+          <TextField  type="number" className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.locationChanged('lng').bind(this)} value={this.state.location.lng}/>
+          <p className="option">Range(miles)</p>
+          <TextField type="number" className="optionInput" InputProps={{style:{color:"white", borderBottom: '1px solid white'}}} onChange={this.textChanged('range').bind(this)}/>
         </div>
-        <div className="qualities container">
-          <p>Danceability</p> 
-          <Slider/>
-          <p>Energy</p>
-          <Slider/>
-          <p>Positivity</p>
-          <Slider/>
-          <p>Tempo</p>
-          <Slider/>
-        </div>
+        
         <button 
           type="button" 
           className="button" 
