@@ -10,6 +10,16 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//app.use(express.static(path.join(__dirname, "/client/src")));
+
+app.get('/', (req, res) => {
+  res.send('Hello from App Engine!');
+});
+
+//app.get("/*", (req, res) => {
+//  res.sendFile(path.join(__dirname, "/client/src/pages/home.js"));
+//});
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -33,8 +43,16 @@ app.post('/updateLocation', (req, res) => {
     res.json('Success');
 });
 
+app.post('/getRec', (req, res) => {
+    let session = req.body.session;
+    database.getSession(session, (s => {
+        database.getUserSongs(s[1].idArr, songList => {
+            request.post('http://localhost:5000/getSong', { json: JSON.stringify(songList) }, (err, res_in, body) => console.log(body));
+        });
+    }));
+});
+
 app.post('/getSessions', (req, res) => {
-    //MAKE SURE TO GET CURRENT LOCATION and USERID
 
     let getDistance = (a, b) => {
         let aLat = a.lat / Math.PI;
@@ -44,7 +62,8 @@ app.post('/getSessions', (req, res) => {
         return 3960 * Math.acos(Math.sin(aLat) * Math.sin(bLat) + Math.cos(aLat) * Math.cos(bLat) * Math.cos(bLng - aLng));
     }
 
-    location = req.body.location;
+    let location = req.body.location;
+    let id = req.body.id;
     database.getSessions(sessions => {
         allSessionList = sessions;
         sessions = sessions.filter(session => {
@@ -52,14 +71,16 @@ app.post('/getSessions', (req, res) => {
             let b = session[1].location;
             return getDistance(location, b) < range;
         });
+        sessions.forEach(session => database.addUserToSession(session[0], id));
+        res.json({
+            allSessions: allSessionList,
+            joinedSessions: sessions
+        });
     });
-    database.addUserToSession()
-    // find all the sessions in the vicinity of the user
-    // add all the users to the sessions
 });
 
 app.post('/postToken', (req, res) => {
-    token = req.body.token;
+    let token = req.body.token;
     const spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(token);
     spotifyApi.getMySavedTracks({

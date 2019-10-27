@@ -6,8 +6,9 @@ app.config["DEBUG"] = True
 
 songs = [{'song':'song1'}, {'song':'song2'}, {'song':'song3'}, {'song':'song4'}]
 
-@app.route('/getList', methods=['GET'])
+@app.route('/getSong', methods=['POST'])
 def home():
+    print(request.get_json())
     return jsonify(songs)
 
 app.run()
