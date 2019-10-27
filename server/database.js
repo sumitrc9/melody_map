@@ -53,6 +53,14 @@ module.exports.getSessions = callback => {
     });
 }
 
+module.exports.getSession = (session, callback) => {
+    let sessionRef = database.ref('sessions');
+    sessionRef.once('value', snapshot => {
+        let entry = Object.entries(snapshot.val()).filter(val => val[0] == session);
+        callback(entry[0]);
+    });
+}
+
 module.exports.addUser = (id, name, location, songs) => {
     let usersRef = database.ref('users');
     usersRef.once('value', snapshot => {
@@ -61,6 +69,19 @@ module.exports.addUser = (id, name, location, songs) => {
             location,
             songs
         }); 
+    });
+}
+
+module.exports.getUserSongs = (idArr, callback) => {
+    let usersRef = database.ref('users');
+    usersRef.once('value', snapshot => {
+        let entries = Object.entries(snapshot.val()).filter(val => {
+            for (i = 0; i < idArr.length; i++) {
+                if (idArr[i] == val[0]) return true;
+            }
+            return false;
+        });
+        callback(entries.map(val => val[1].songs));
     });
 }
 
