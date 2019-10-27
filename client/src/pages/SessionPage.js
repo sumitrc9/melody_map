@@ -32,9 +32,11 @@ class SessionPage extends Component {
   }
 
   render() {
+    const sessionID = this.props.location.state.session
+    console.log("session", sessionID)
     return (
       <div className="session-page-div">
-        <SongPlayer className="song-player"/>
+        <SongPlayer className="song-player" session={sessionID} />
         <h2>Next Up</h2> 
         <SongItem song={this.state.nextUp[0]}/>
         <SongItem song={this.state.nextUp[1]}/>
