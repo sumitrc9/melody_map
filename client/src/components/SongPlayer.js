@@ -32,26 +32,6 @@ class SongPlayer extends Component {
     this.checkForPlayer();
   }
 
-  // createEventHandlers() {
-  //   this.player.on('initialization_error', e => { console.error(e); });
-  //   this.player.on('authentication_error', e => {
-  //     console.error(e);
-  //     this.setState({ loggedIn: false });
-  //   });
-  //   this.player.on('account_error', e => { console.error(e); });
-  //   this.player.on('playback_error', e => { console.error(e); });
-  
-  //   // Playback status updates
-  //   this.player.on('player_state_changed', state => { console.log(state); });
-  
-  //   // Ready
-  //   this.player.on('ready', data => {
-  //     let { device_id } = data;
-  //     console.log("Let the music play on!");
-  //     this.setState({ deviceId: device_id });
-  //   });
-  // }
-
   checkForPlayer() {
     if (window.Spotify !== null && window.Spotify !== undefined) {
       console.log("connecting to spotify", window.Spotify)
@@ -81,16 +61,31 @@ class SongPlayer extends Component {
           deviceId: device_id,
         })
 
-        // 
-        const bearer = 'Bearer ' +  token
-        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
-          method: 'PUT',
+        console.log("session in props? ", this.props)
+        fetch('http://localhost:8080/getRec', {
+          method: 'POST',
           headers: {
-            'Authorization': bearer,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ uris: ['spotify:track:6hLkeOMrhZ2CMLBp2of576'] }),
+          body: JSON.stringify({
+            session: this.props.session,
+          })
+        }).then((res) => {
+          res.json().then((body) => {
+            const bearer = 'Bearer ' +  token
+            fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+              method: 'PUT',
+              headers: {
+                'Authorization': bearer,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ uris: [`spotify:track:${body[0]}`] }),
+            })
+          })
+        }).catch((err) => {
+          console.log("Error retrieving song from node", err)
         })
       });
     
@@ -136,7 +131,6 @@ class SongPlayer extends Component {
 
       if (playing) {
         this.playerCheckInterval = window.setInterval(() => {
-          console.log(this.state.position);
           const newPosition = this.state.position + 1000
           this.setState({
             position: newPosition,

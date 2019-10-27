@@ -84,6 +84,7 @@ def generate_recomendations(song_lists):
 
 	songs = []
 	for artist in sample_5:
+		print(artist)
 		songs.append(get_random_song_for_artist(artist))
 
 	return songs

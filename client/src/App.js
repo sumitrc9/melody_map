@@ -6,19 +6,36 @@ import MapPage from './pages/MapPage';
 import RedirectPage from './pages/RedirectPage';
 import AddSession from './pages/AddSession';
 import SessionPage from './pages/SessionPage';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 class App extends Component {
   render() {
+
+    const theme = createMuiTheme({
+      palette: {
+        secondary: {
+            main: '#E33E7F'
+        },
+        primary: {
+          main: "#ff397f"
+        },
+        text: {
+          main:"#ffffff"
+        }
+      },
+    })
     
     const App = () => (
       <div className="App">
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route path='/addsession' component={AddSession}/>
-          <Route path='/map' component={MapPage}/>
-          <Route path='/session' component={SessionPage}/>
-          <Route redirect='/redirect' component={RedirectPage}/>
-        </Switch>
+        <MuiThemeProvider theme={theme}>
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            <Route path='/addsession' component={AddSession}/>
+            <Route path='/map' component={MapPage}/>
+            <Route path='/session' component={SessionPage}/>
+            <Route redirect='/redirect' component={RedirectPage}/>
+          </Switch>
+        </MuiThemeProvider>
       </div>
     )
     return (
