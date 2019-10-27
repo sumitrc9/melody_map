@@ -34,3 +34,14 @@ module.exports.addUser = (id, name, location, songs) => {
         }); 
     });
 }
+
+module.exports.updateUserLocation = (id, location) => {
+    let usersRef = database.ref('users');
+    usersRef.once('value', snapshot => {
+        let entry = Object.entries(snapshot.val()).filter(val => val[0] == id)
+        id = entry[0][0];
+        name = entry[0][1].name;
+        songs = entry[0][1].songs;
+        this.addUser(id, name, location, songs);
+    });
+}

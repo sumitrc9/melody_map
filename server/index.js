@@ -30,7 +30,9 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/updateLocation', (req, res) => {
-    console.log(req.body);
+    id = req.body.id;
+    location = req.body.location;
+    database.updateUserLocation(id, location);
 });
 
 app.post('/postToken', (req, res) => {
