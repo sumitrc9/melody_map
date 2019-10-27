@@ -20,6 +20,7 @@ class SongPlayer extends Component {
       playing: false,
       position: 0,
       duration: 0,
+      deviceId: '',
     };
 
     this.playerCheckInterval = null;
@@ -57,35 +58,49 @@ class SongPlayer extends Component {
 
       const cookies = new Cookies();
       const token = cookies.get('token');
-      const player = new window.Spotify.Player({
+      this.player = new window.Spotify.Player({
         name: 'Melody Maps',
         getOAuthToken: cb => { cb(token); }
       });
     
       // Error handling
-      player.addListener('initialization_error', ({ message }) => { console.error(message); });
-      player.addListener('authentication_error', ({ message }) => { console.error(message); });
-      player.addListener('account_error', ({ message }) => { console.error(message); });
-      player.addListener('playback_error', ({ message }) => { console.error(message); });
+      this.player.addListener('initialization_error', ({ message }) => { console.error(message); });
+      this.player.addListener('authentication_error', ({ message }) => { console.error(message); });
+      this.player.addListener('account_error', ({ message }) => { console.error(message); });
+      this.player.addListener('playback_error', ({ message }) => { console.error(message); });
     
       // Playback status updates
-      player.addListener('player_state_changed', state => {
+      this.player.addListener('player_state_changed', state => {
         this.onStateChanged(state);
       });
     
       // Ready
-      player.addListener('ready', ({ device_id }) => {
+      this.player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
+        this.setState({
+          deviceId: device_id,
+        })
+
+        // 
+        const bearer = 'Bearer ' +  token
+        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': bearer,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ uris: ['spotify:track:6hLkeOMrhZ2CMLBp2of576'] }),
+        })
       });
     
       // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
+      this.player.addListener('not_ready', ({ device_id }) => {
         console.log('Device ID has gone offline', device_id);
       });
     
       // Connect to the player!
-      player.connect();
-
+      this.player.connect();
       
     } else {
       console.log("Spotify web player not available on component load")
@@ -119,7 +134,6 @@ class SongPlayer extends Component {
         playing
       });
 
-
       if (playing) {
         this.playerCheckInterval = window.setInterval(() => {
           console.log(this.state.position);
@@ -132,15 +146,27 @@ class SongPlayer extends Component {
     }
   }
 
+  pausePlay() {
+    this.player.togglePlay().then(() => {
+      console.log("Pause Play")
+    })
+  }
+
+  skipSong() {
+    this.player.nextTrack().then(() => {
+      console.log("Skip")
+    })
+  }
+
   render() {
     const progress = ((1.0) * this.state.position) / this.state.duration * 100;
     const displayName = this.state.trackName + " - " + this.state.artistName;
     return (
       <div>
         <div className="music-controls">
-          <PlayCircleOutlineIcon/>
+          <PlayCircleOutlineIcon onClick={this.pausePlay.bind(this)}/>
           <div>{displayName}</div>
-          <SkipNextIcon/>
+          <SkipNextIcon onClick={this.skipSong.bind(this)}/>
         </div>
         <LinearProgress variant="determinate" value={progress}/>
       </div>
