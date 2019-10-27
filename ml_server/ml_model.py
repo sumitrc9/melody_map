@@ -21,7 +21,19 @@ def get_random_song_for_artist(artist):
 	track = top_tracks["tracks"][0]
 	track_uri = track["uri"]
 	track_uri = track_uri[len("spotify:track:"):]
-	return track_uri
+	artist_name = track["artists"][0]["name"]
+	image_url = track["album"]["images"][0]["url"]
+
+	track_object = {
+		"uri": track["uri"],
+		"name": track["name"],
+		"artist": artist_name,
+		"image": image_url,
+	}
+
+	print(track_object)
+
+	return track_object
 
 #returns the newest pickled model
 def get_pickled_model():
