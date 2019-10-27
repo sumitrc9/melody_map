@@ -29,6 +29,10 @@ app.get('/api/getList', (req,res) => {
     });
 });
 
+app.post('/updateLocation', (req, res) => {
+    console.log(req.body);
+});
+
 app.post('/postToken', (req, res) => {
     token = req.body.token;
     const spotifyApi = new SpotifyWebApi();

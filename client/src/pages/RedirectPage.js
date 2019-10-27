@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./Home.css"
 import hash from "./hash";
 import { Redirect } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 function Header(props) {
 
@@ -22,6 +23,9 @@ class RedirectPage extends Component {
     }
   }
   componentDidMount() {
+    const cookies = new Cookies()
+
+    console.log(hash.access_token)
 
     fetch('http://localhost:8080/postToken', {
         method: 'POST',
@@ -32,6 +36,12 @@ class RedirectPage extends Component {
         body: JSON.stringify({
           token: hash.access_token,
       })
+    }).then((res) => {
+      return res.json()
+    }).then((res) => {
+      console.log("response from pokeToken", res);
+      cookies.set('id', res.id, { path: '/' });
+      cookies.set('name', res.name, { path: '/' });
     })
     this.setState({redirect: true}, () => {
       console.log(this.state)

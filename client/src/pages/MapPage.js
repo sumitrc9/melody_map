@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { Redirect } from 'react-router-dom';
 import * as constants from '../constants';
+import Cookies from 'universal-cookie';
 
 export class MapContainer extends Component {
 
@@ -11,7 +12,9 @@ export class MapContainer extends Component {
   }
 
   componentWillMount(){
+    const cookies = new Cookies();
     if (navigator.geolocation) {
+
       navigator.geolocation.getCurrentPosition((position) => {
 
         this.setState({
@@ -20,7 +23,6 @@ export class MapContainer extends Component {
             lng: position.coords.longitude
           }
         });
-
         fetch('http://localhost:8080/updateLocation', {
           method: 'POST',
           headers: {
@@ -29,6 +31,7 @@ export class MapContainer extends Component {
           },
           body: JSON.stringify({
             location: this.state.center,
+            id: cookies.get('id')
           })
         })
       }, function() {
