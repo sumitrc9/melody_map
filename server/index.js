@@ -3,9 +3,6 @@ const request = require('request')
 const bodyParser = require('body-parser')
 const SpotifyWebApi = require('spotify-web-api-node')
 
-// const session = require('./models/session')
-// const user = require('./models/user')
-
 const database = require('./database')
 
 const app = express();
@@ -30,9 +27,13 @@ app.get('/api/getList', (req,res) => {
 });
 
 app.post('/updateLocation', (req, res) => {
-    id = req.body.id;
-    location = req.body.location;
+    let id = req.body.id;
+    let location = req.body.location;
     database.updateUserLocation(id, location);
+});
+
+app.get('/getSessions', (req, res) => {
+
 });
 
 app.post('/postToken', (req, res) => {
